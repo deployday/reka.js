@@ -216,8 +216,8 @@ const jsToReka = <T extends t.ASTNode = t.ASTNode>(
 
         if (identifierName === 'slot') {
           return t.slotTemplate({
-            props: {},
-            children: [],
+            props,
+            children,
           });
         }
 
@@ -498,9 +498,10 @@ class _Parser extends Lexer {
     }
 
     if (tag === 'slot') {
+      console.log('SLLSLSLSLSLSL', props, children);
       return t.slotTemplate({
-        props: {},
-        children: [],
+        props,
+        children,
       });
     }
 

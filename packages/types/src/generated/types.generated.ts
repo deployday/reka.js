@@ -414,14 +414,16 @@ Schema.register('ComponentTemplate', ComponentTemplate);
 
 type SlotTemplateParameters = {
   meta?: Record<string, any>;
-  props?: Record<string, Expression>;
-  children?: Template[];
   if?: Expression | null;
   each?: ElementEach | null;
   classList?: ObjectExpression | null;
+  props?: Record<string, Expression>;
+  children?: Template[];
 };
 
 export class SlotTemplate extends Template {
+  declare props: Record<string, Expression>;
+  declare children: Template[];
   constructor(value: SlotTemplateParameters) {
     super('SlotTemplate', value);
   }
@@ -472,10 +474,12 @@ type SlottableViewParameters = {
   frame: string;
   owner?: ComponentView | null;
   children?: View[];
+  props?: Record<string, Expression>;
 };
 
 export abstract class SlottableView extends View {
   declare children: View[];
+  declare props: Record<string, Expression>;
   constructor(type: string, value: SlottableViewParameters) {
     super(type, value);
   }
@@ -509,6 +513,7 @@ type ComponentViewParameters = {
   frame: string;
   owner?: ComponentView | null;
   children?: View[];
+  props?: Record<string, Expression>;
   component: Component;
 };
 
@@ -527,6 +532,7 @@ type RekaComponentViewParameters = {
   frame: string;
   owner?: ComponentView | null;
   children?: View[];
+  props?: Record<string, Expression>;
   component: RekaComponent;
   render: View[];
 };
@@ -566,11 +572,13 @@ type SlotViewParameters = {
   template: Template;
   frame: string;
   owner?: ComponentView | null;
-  children: View[];
+  children?: View[];
+  props?: Record<string, Expression>;
 };
 
 export class SlotView extends View {
   declare children: View[];
+  declare props: Record<string, Expression>;
   constructor(value: SlotViewParameters) {
     super('SlotView', value);
   }

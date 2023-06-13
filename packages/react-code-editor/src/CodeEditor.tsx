@@ -245,6 +245,7 @@ export const CodeEditor = ({ onStatusChange, ...props }: CodeEditorProps) => {
       });
     }
   }, [reka, codemirrorView]);
+  console.log('TTTTTT');
 
   // If the AST changes (ie: from undo/redo or from multiplayer),
   // Then, sync those changes to the CodeMirror editor

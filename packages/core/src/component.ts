@@ -101,6 +101,8 @@ export class ComponentViewEvaluator {
             if (!this.rekaComponentPropsComputation) {
               this.rekaComponentPropsComputation = computed(
                 () => {
+                  console.log('SLLLLL', component);
+                  console.log('SLOYYY ', this.template, this.ctx);
                   const slot = this.template.children.flatMap((child) =>
                     this.evaluator.computeTemplate(child, {
                       ...this.ctx,

@@ -216,7 +216,11 @@ Schema.define('ComponentTemplate', {
 
 Schema.define('SlotTemplate', {
   extends: 'Template',
-  fields: () => ({}),
+  // fields: () => ({}),
+  fields: (t) => ({
+    props: t.defaultValue(t.map(t.node('Expression')), {}),
+    children: t.defaultValue(t.array(t.node('Template')), []),
+  }),
 });
 
 Schema.define('ElementEach', {
@@ -243,6 +247,7 @@ Schema.define('SlottableView', {
   extends: 'View',
   fields: (t) => ({
     children: t.defaultValue(t.array(t.node('View')), []),
+    props: t.defaultValue(t.map(t.node('Expression')), {}),
   }),
 });
 
@@ -281,7 +286,10 @@ Schema.define('ExternalComponentView', {
 Schema.define('SlotView', {
   extends: 'View',
   fields: (t) => ({
-    children: t.array(t.node('View')),
+    children: t.defaultValue(t.array(t.node('View')), []),
+    props: t.defaultValue(t.map(t.node('Expression')), {}),
+    // props: t.defaultValue(t.map(t.any)), {}),
+    // props: t.map(t.any),
   }),
 });
 

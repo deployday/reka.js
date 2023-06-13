@@ -20,6 +20,8 @@ import { Reka } from './reka';
 import { ClassListBindingKey, ComponentSlotBindingKey } from './symbols';
 import { createKey } from './utils';
 
+console.log('IMPPPPLLL');
+
 export type TemplateEvaluateContext = {
   env: Environment;
   owner: t.ComponentView | null;
@@ -354,9 +356,12 @@ export class Evaluator {
           }
 
           if (template instanceof t.SlotTemplate) {
+            console.log('GOPT here 5', ctx);
             view = this.computeSlotTemplate(template, ctx);
+            // this.computeView();
           }
 
+          console.log('FALLBACK here 1', ctx);
           this.tplToView.set(template, view);
 
           return view;
@@ -411,11 +416,52 @@ export class Evaluator {
   }
 
   computeSlotTemplate(template: t.SlotTemplate, ctx: TemplateEvaluateContext) {
+    const slotName = template.props['name']?.value;
+    console.log('CURRENT SLOT NAME', slotName);
+    const consumerChildren = ctx.env
+      .getByName(ComponentSlotBindingKey)
+      .map((com) => {
+        console.log('FILTERING', com.props, com.tag, com);
+        if (com.props['slot'] === slotName) {
+          console.log('MATCHED', com);
+          // debugger;
+          if (com instanceof t.SlotView) {
+            console.log('IT IS SLOT 4', com);
+            // debugger;
+            return this.computeSlotView(com, {
+              ...ctx,
+              env: ctx.env.inherit(),
+              path: [...ctx.path, com.id],
+            });
+            if (com.template.children.length > 0) {
+              console.log('HAS CHILDREN', com.template.children);
+              return com.template.children[0];
+            } else {
+              console.log('NO CHILDREN', com.template.children);
+              return null;
+            }
+          }
+          console.log('FOUNDDDD 3');
+          return com;
+        }
+        return null;
+      })
+      .filter((com) => com !== null);
+    console.log('BUILDING SLOT 7', consumerChildren.length);
     return [
       t.slotView({
         key: createKey(ctx.path),
         template,
-        children: ctx.env.getByName(ComponentSlotBindingKey),
+        children:
+          consumerChildren.length > 0
+            ? consumerChildren
+            : template.children.flatMap((child) =>
+                this.computeTemplate(child, {
+                  ...ctx,
+                  path: [...ctx.path, child.id],
+                })
+              ),
+
         frame: this.frame.id,
         owner: ctx.owner,
       }),

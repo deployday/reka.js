@@ -9,6 +9,7 @@ type RekaProps = {
 };
 
 export const RekaProvider = (props: RekaProps) => {
+  console.log('YAYYYYYY REKA PPPPPP');
   return (
     <RekaStateContext.Provider value={props.reka}>
       {props.children}

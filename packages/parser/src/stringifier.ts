@@ -240,6 +240,7 @@ class _Stringifier {
             : node instanceof t.SlotTemplate
             ? 'slot'
             : undefined;
+        console.log('HEYYYY THEREEEE');
 
         invariant(tag, `Tag is undefined`);
 

@@ -39,5 +39,8 @@
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
     "react": "^17.0.2"
+  },
+  "volta": {
+    "node": "16.16.0"
   }
 }
