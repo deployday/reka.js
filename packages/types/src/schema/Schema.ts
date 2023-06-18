@@ -80,11 +80,14 @@ export class Schema {
     const { type } = json;
     const schema = Schema.get(type);
 
-    if (!type) {
+    console.log('TYYYYYYY', type, json);
+    const n = new schema.ctor(json);
+    if (!n) console.log('^^^^^^^^^^^^^^');
+    if (!type || !schema) {
       return;
     }
 
-    return new schema.ctor(json);
+    if (schema?.ctor) return new schema.ctor(json);
   }
 
   static getRegistry() {

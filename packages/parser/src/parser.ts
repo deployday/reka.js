@@ -9,7 +9,7 @@ import { Stringifier } from './stringifier';
 import { TokenType } from './tokens';
 import { getIdentifierFromStr } from './utils';
 
-const parseWithAcorn = (source: string, loc: number) => {
+export const parseWithAcorn = (source: string, loc: number) => {
   const JSXParser = AcornParser.extend(jsx());
 
   return JSXParser.parseExpressionAt(source, loc, {
@@ -22,7 +22,7 @@ type AcornParserOptions<T extends t.Type = t.Any> = {
   isElementEachDirective?: boolean;
 };
 
-const parseExpressionWithAcornToRekaType = <T extends t.Type = t.Any>(
+export const parseExpressionWithAcornToRekaType = <T extends t.Type = t.Any>(
   source: string,
   loc: number,
   opts?: AcornParserOptions<T>
@@ -35,11 +35,12 @@ const parseExpressionWithAcornToRekaType = <T extends t.Type = t.Any>(
   return { expression, type };
 };
 
-const jsToReka = <T extends t.ASTNode = t.ASTNode>(
+export const jsToReka = <T extends t.ASTNode = t.ASTNode>(
   node: b.Node,
   opts?: AcornParserOptions<T>
 ) => {
   const _convert = (node: b.Node) => {
+    console.log('ENTERING ', node);
     switch (node.type) {
       case 'BlockStatement': {
         return t.block({
@@ -230,6 +231,12 @@ const jsToReka = <T extends t.ASTNode = t.ASTNode>(
       }
       case 'JSXExpressionContainer': {
         return t.Schema.fromJSON(node.expression);
+      }
+      case 'JSXText': {
+        // return t.Schema.fromJSON(node.expression);
+        return t.literal({
+          value: node.value,
+        });
       }
       default: {
         return t.Schema.fromJSON(node) as t.Type;

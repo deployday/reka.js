@@ -428,7 +428,7 @@ export class Evaluator {
           if (com instanceof t.SlotView) {
             console.log('IT IS SLOT 4', com);
             // debugger;
-            return this.computeSlotView(com, {
+            return this.computeSlotTemplate(, ctx)(com, {
               ...ctx,
               env: ctx.env.inherit(),
               path: [...ctx.path, com.id],

@@ -24,13 +24,7 @@ export class Validator {
 
       return this.format(value);
     } catch (err) {
-      throw new TypeError(
-        `Validatation<${this.is}> failed for value "${JSON.stringify(
-          value,
-          null,
-          2
-        )}"`
-      );
+      throw new TypeError(`Validatation<${this.is}> failed for value "${err}"`);
     }
   }
 }
